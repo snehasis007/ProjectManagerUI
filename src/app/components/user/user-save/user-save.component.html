@@ -1,1 +1,131 @@
-<p>user-save works!</p>
+<div class="container">
+    <form class="needs-validation" novalidate>
+
+        <div class="form-group required">
+
+            <label for="firstName">First Name:</label>
+
+            <input type="text" class="form-control" id="firstName" name="firstName" [(ngModel)]="user.firstName">
+
+        </div>
+
+        <div class="form-group required">
+
+            <label for="lastName">Last Name:</label>
+
+            <input type="text" class="form-control" id="lastName" name="firstName" [(ngModel)]="user.lastName">
+
+        </div>
+
+        <div class="form-group">
+
+            <label for="employeeId">EmployeeID:</label>
+
+            <input type="text" class="form-control" id="employeeId" name="employeeId" [(ngModel)]="user.employeeID">
+
+        </div>
+
+        <div class="form-group">
+
+
+            <button type="button" id="add" class="btn btn-secondary" [disabled]="!(user.firstName && user.lastName && user.employeeID)" (click)="saveOrUpdateUser()">Add</button>
+
+            <button type="button" id="reset" class="btn btn-secondary" (click)="reset()">Reset</button>
+
+        </div>
+
+    </form>
+
+    <div>
+        <hr style="border:1px solid" />
+    </div>
+
+    <div class="row">
+
+        <label for="Search">Search</label>
+
+        <input type="text" name="userSearchValue" class="form-control" id="userSearchValue" [(ngModel)]="userSearchValue">
+
+        <label for="sort">Sort:</label>
+        <span>
+        <button type="button" id="srchfirstName" class="btn btn-secondary" 
+        (click)="sortByFirstName()">First Name</button>
+      </span>
+        <span>
+        <button type="button" id="srchlastName" class="btn btn-secondary " 
+        (click)="sortByLastName()">Last Name</button>
+      </span>
+        <span>
+        <button type="button" id="srchid" class="btn btn-secondary " 
+        (click)="sortById()">Id</button>
+      </span>
+
+
+    </div>
+    <table id="uview1" class="table table-striped">
+        <tr>
+            <th>First Name</th>
+            <th>Last Name </th>
+            <th>Employee ID </th>
+
+            <th></th>
+        </tr>
+        <tr *ngFor="let user of filteredUsers;let i = index">
+            <td>{{user.firstName}}</td>
+            <td>{{user.lastName}}</td>
+            <td>{{user.employeeID}}</td>
+
+            <td>
+
+                <button type="button" (click)="openUserMdal(template,i)" class="btn btn-primary">Edit</button>
+
+                <button type="button" (click)="deleteUser(i)" class="btn btn-warning">Delete</button>
+
+
+            </td>
+
+        </tr>
+    </table>
+
+
+
+    <ng-template #template>
+        <div class="modal-header">
+            <h4 class="modal-title pull-left">Update User</h4>
+            <button type="button" class="btn btn-secondary" aria-label="Close" (click)="closeUserModal()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+        </div>
+        <div class="modal-body">
+
+            <div class="form-group ">
+
+                <label for="name">First Name:</label>
+
+                <input type="text" name="firstName2" class="form-control" id="firstName2" [(ngModel)]="filteredUsers[index].firstName" />
+
+            </div>
+            <div class="form-group">
+
+                <label for="name">Last Name:</label>
+
+                <input type="text" name="lastName2" class="form-control" id="lastName2" [(ngModel)]="filteredUsers[index].lastName" />
+
+            </div>
+            <div class="form-group">
+
+                <label for="empId">Emp ID:</label>
+
+                <input type="text" name="empId2" class="form-control" id="empId2" [(ngModel)]="filteredUsers[index].employeeID">
+
+            </div>
+
+            <div class="form-group ">
+
+                <button type="button" class="btn btn-secondary" [disabled]="!(filteredUsers[index].firstName && filteredUsers[index].lastName && filteredUsers[index].employeeID)" (click)="updateUser(index)">Update</button>
+                <button type="button" class="btn btn-secondary " (click)="closeUserModal()">Close</button>
+
+            </div>
+        </div>
+    </ng-template>
+</div>

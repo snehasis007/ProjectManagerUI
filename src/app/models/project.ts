@@ -10,4 +10,7 @@ export class Project{
     noOfTask?:number;
     noOfTaskCompleted?:number;
     manager?:User;
+    constructor(){
+        this.manager=new User();
+    }
 }

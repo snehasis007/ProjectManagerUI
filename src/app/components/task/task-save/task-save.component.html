@@ -1,1 +1,205 @@
-<p>task-save works!</p>
+<div class="container">
+    <form class="needs-validation" novalidate>
+        <div class="form-group required">
+            <label for="projectName">Project:</label>
+            <input type="text" class="form-control" id="projectName" name="projectName" [(ngModel)]="task.project.project" readonly>
+            <button type="button" id="search" class="btn btn-primary" (click)="openProjectModal(template1)">Serach</button>
+        </div>
+
+
+
+        <div class="form-group  required">
+
+            <label for="task">Task: </label>
+
+            <input type="text" name="task" class="form-control" id="taskid" [(ngModel)]="task.task">
+
+        </div>
+
+        <div class="form-group ">
+            <input class="form-check-input" type="checkbox" id="defaultCheck1" (change)="onChecboxSelect($event)" checked>
+            <span>Parent Task</span>
+        </div>
+
+        <div class="form-group ">
+
+            <label for="priority">Priority: </label>
+
+            <span> 0 - </span>
+            <span>30</span>
+            <input type="range" (click)="onDrag($event)" name="priority" min="0" max="30" class="custom-range" [(ngModel)]="task.priority">
+            <span>{{task.priority}}</span>
+
+        </div>
+
+        <div class="form-group  required">
+
+            <label for="parentTask">Parent
+          Task: </label>
+
+
+            <input type="text" class="form-control" id="parentTask" readonly name="parentTask" [(ngModel)]="task.pTask.parentTaskName">
+
+            <button type="button" id="ptasksearch" class="btn btn-primary" (click)="openParentTaskModal(template2)" [disabled]="task.isParent=='Y'">Serach</button>
+
+        </div>
+
+        <div class="form-group  required">
+
+            <label for="startDate">Start
+          Date: </label>
+
+            <input type="text" name="startDate" class="form-control" placeholder="DD/MM/YYYY" id="startDate" [(ngModel)]="task.startDate">
+
+        </div>
+        <div class="form-group  required">
+            <label for="endDate">End
+          Date: </label>
+
+            <input type="text" name="endDate" class="form-control" placeholder="DD/MM/YYYY" id="endDate" [(ngModel)]="task.endDate">
+
+        </div>
+        <div class="form-group  required">
+            <label for="user">User: </label>
+
+            <input type="text" class="form-control" id="user" name="user" value="{{task.userOwner.fullName}}" readonly>
+            <button type="button" id="usrsearch" class="btn btn-primary" (click)="openUserModal(template3)">Serach</button>
+        </div>
+
+
+        <div class="form-group ">
+
+
+            <button type="button" id="add" class="btn btn-primary" [disabled]="!(task.task && task.startDate && task.endDate && task.project.project && task.userOwner.fullName && task.pTask.parentTaskName && validateDate())" (click)="saveOrUpdateTask()">Add Task</button>
+
+            <button type="button" id="reset" class="btn btn-primary" (click)="reset()">Reset</button>
+
+
+        </div>
+
+    </form>
+</div>
+
+<ng-template #template1>
+    <div class="modal-header">
+        <h4 class="modal-title pull-left">Project</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="closeProjectModal()">
+            <span aria-hidden="true">&times;</span>
+          </button>
+    </div>
+    <div class="modal-body">
+        <div class="d-flex flex-row">
+            <div class="p-2">
+                <label for="Search">Search</label>
+
+                <input type="text" name="projectSearchValue" class="form-control" [(ngModel)]="projectSearchValue">
+            </div>
+        </div>
+        <div class="d-flex flex-row">
+            <div class="p-2">
+                <label for="projectName2">Project</label>
+            </div>
+            <div class="p-2">
+                <label for="projectName2">Start Date</label>
+            </div>
+            <div class="p-2">
+                <label for="projectName2">End Date</label>
+            </div>
+
+
+            <div class="d-flex flex-row" *ngFor="let project of filteredProjects;let i = index">
+                <div class="p-2">
+                    <input type="text" name="projectName" class="form-control" id="projectName" readonly value="{{project.projectName}}">
+                </div>
+                <div class="p-2">
+                    <input type="text" name="startDate" class="form-control" id="startDate" readonly value="{{project.startDate}}">
+                </div>
+                <div class="p-2">
+                    <input type="text" name="endDate" class="form-control" id="endDate" readonly value="{{project.endDate}}">
+                </div>
+                <div class="p-2">
+                    <button type="button" id="select" class="btn btn-secondary" (click)="selectProject(i)">Select</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</ng-template>
+
+<ng-template #template2>
+    <div class="modal-header">
+        <h4 class="modal-title pull-left">Parent Task</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="closeParentTaskModal()">
+            <span aria-hidden="true">&times;</span>
+          </button>
+    </div>
+    <div class="modal-body">
+        <div class="d-flex flex-row">
+            <div class="p-2">
+                <label for="Search">Search</label>
+
+                <input type="text" name="parentTaskSearchValue" class="form-control" [(ngModel)]="parentTaskSearchValue">
+            </div>
+        </div>
+        <div class="d-flex flex-row">
+            <div class="p-2">
+                <label for="parentTaskName">Parent Task</label>
+
+                <label for="parentTaskId">Parent Task ID
+                </label>
+            </div>
+
+
+            <div class="d-flex flex-row" *ngFor="let parentTask of filteredParentTasks;let i = index">
+                <div class="p-2">
+                    <input type="text" name="parentTaskName" class="form-control" id="parentTaskName" disabled="true" value="{{parentTask.parentTaskName}}">
+                </div>
+                <div class="p-2">
+                    <input type="text" name="parentId" class="form-control" id="parentId" disabled value="{{parentTask.id}}">
+                </div>
+                <div class="p-2">
+                    <button type="button" id="ptselect" class="btn btn-secondary" (click)="selectParentTask(i)">Select</button>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+</ng-template>
+
+<ng-template #template3>
+    <div class="modal-header">
+        <h4 class="modal-title pull-left">User</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="closeUserModal()">
+            <span aria-hidden="true">&times;</span>
+          </button>
+    </div>
+    <div class="modal-body">
+        <div class="form-group">
+
+            <label for="Search">Search</label>
+
+            <input type="text" name="userSearchValue" class="form-control" [(ngModel)]="userSearchValue" />
+
+        </div>
+        <div class="form-group ">
+
+            <label for="name">NAME</label>
+
+
+            <label for="empId">EMP ID</label>
+
+        </div>
+
+        <div *ngFor="let user of filteredUsers;let i = index" class="form-group">
+
+            <input type="text" name="firstName" class="form-control" id="firstName" disabled value="{{user.firstName}} {{user.lastName}}" />
+
+            <input type="text" name="empId" class="form-control" id="empId" disabled value="{{user.employeeID}}" />
+
+            <button type="button" id="usselect" class="btn btn-secondary" (click)="selectUser(i)">Select</button>
+
+        </div>
+
+    </div>
+</ng-template>

@@ -1,6 +1,7 @@
 export class User{
     id:string;
     employeeID:string;
-    firstName:string;
-    lastName:string;
+    firstName?:string;
+    lastName?:string;
+    fullName?:String;
 }

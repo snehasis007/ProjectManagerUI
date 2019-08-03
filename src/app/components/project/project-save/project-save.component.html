@@ -1,1 +1,211 @@
-<p>project-save works!</p>
+<div class="container">
+    <form class="needs-validation" novalidate>
+        <div class="form-group  required">
+
+            <label for="projectName">Project:</label>
+
+
+            <input type="text" name="projectName" class="form-control" id="projectName" [(ngModel)]="project.project">
+
+        </div>
+
+        <div class="form-group ">
+
+            <input class="form-check-input" type="checkbox" id="defaultCheck1" (change)="onChecboxSelect($event)"> Set Start and End Date
+
+            <input type="text" id="startDate" placeholder="DD/MM/YYYY" class="form-control" name="startDate" [(ngModel)]="project.startDate" disabled={{disabled}} />
+
+            <input type="text" id="endDate" placeholder="DD/MM/YYYY" class="form-control" name="endDate" [(ngModel)]="project.endDate" disabled={{disabled}} />
+
+        </div>
+
+        <div class="form-group">
+
+            <label for="priority">Priority:</label>
+            <span> 0 - </span>
+            <span>30</span>
+            <input type="range" (click)="onDrag($event)" name="priority" min="0" max="30" class="custom-range" [(ngModel)]="project.priority">
+            <span>{{project.priority}}</span>
+
+        </div>
+
+        <div class="form-group  required">
+
+            <label for="managerName">Manager:</label>
+
+            <input type="text" name="managerName" class="form-control" id="managerName" value="{{project.manager.fullName}}" readonly>
+
+            <button type="button" id="search" class="button buttonSearch" (click)="openUserModal(template1)">Serach</button>
+
+        </div>
+
+        <div class="form-group">
+
+            <button type="button" id="add" class="btn btn-primary" (click)="saveOrUpdateProject()" [disabled]="validateDate()">Add Project</button>
+
+            <button type="button" id="reset" class="btn btn-primary" (click)="reset()">Reset</button>
+
+        </div>
+    </form>
+</div>
+
+
+<hr />
+
+
+<div class="row">
+
+
+    <label for="Search">Search</label>
+
+
+    <input type="text" name="searchValuech1" class="form-control" id="searchValue" [(ngModel)]="searchValue">
+
+
+</div>
+
+<div class="row">
+
+    <label for="sortBy">Sort By:</label>
+
+    <button type="button" id="startDatesrt" class="btn btn-secondary" (click)="sortByStartDate()">Start Date</button>
+
+    <button type="button" id="endDatesrt" class="btn btn-secondary " (click)="sortByEndDate()">End Date</button>
+
+    <button type="button" id="prioritysrt" class="btn btn-secondary" (click)="sortByPriority()">Priority</button>
+
+    <button type="button" id="completedsrt" class="btn btn-secondary " (click)="sortByCompletion()">Completed</button>
+
+</div>
+
+<table id="prview1" class="table table-striped">
+    <tr>
+        <th>Project</th>
+        <th>No Of Tasks </th>
+        <th>Completed </th>
+        <th>Start Date </th>
+        <th>End Date </th>
+        <th>Priority </th>
+        <th></th>
+    </tr>
+    <tr *ngFor="let project of filteredData;let i = index">
+        <td>{{project.project}}</td>
+        <td>{{project.noOfTask}}</td>
+        <td>{{project.noOfTaskCompleted}}</td>
+        <td>{{project.startDate}}</td>
+        <td>{{project.endDate}}</td>
+        <td>{{project.priority}}</td>
+        <td>
+
+            <button type="button" (click)="openProjectModal(template2,i)" class="btn btn-primary">Update</button>
+
+            <button type="button" (click)="suspend(i)" class="btn btn-warning">Suspend</button>
+
+
+        </td>
+
+    </tr>
+</table>
+
+
+
+
+<ng-template #template1>
+    <div class="modal-header">
+        <h4 class="modal-title pull-left">User</h4>
+        <button type="button" class="btn btn-primary" aria-label="Close" (click)="closeUserModal()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+        <div class="form-group ">
+
+            <label for="Search">Search</label>
+
+            <input type="text" name="userSearchValue" class="form-control" [(ngModel)]="userSearchValue">
+
+        </div>
+        <div class="form-group">
+
+            <label for="name">NAME</label>
+
+            <label for="empId">EMP ID</label>
+
+        </div>
+
+
+
+        <div *ngFor="let user of userFilteredData;let i = index">
+            <div class="form-group " id={{i}}>
+
+                <input type="text" name="firstName" class="form-control" id="firstName" readonly value="{{user.firstName}} {{user.lastName}}" />
+
+
+                <input type="text" name="empId" class="form-control" id="empId" disabled value={{user.empId}} />
+
+
+                <button type="button" id="select" class="btn btn-secondary" (click)="selectUser(i)">Select</button>
+
+            </div>
+        </div>
+    </div>
+</ng-template>
+
+<ng-template #template2>
+    <div class="modal-header">
+        <h4 class="modal-title pull-left">Update Project</h4>
+        <button type="button" class="btn btn-primary" aria-label="Close" (click)="closeProjectModal()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+        <form class="needs-validation" #addForm novalidate>
+            <div class="form-group required ">
+                <label for="projectName2">Project:</label>
+
+                <input type="text" name="projectName2" class="form-control" id="projectName2" [(ngModel)]="filteredData[index].project">
+
+            </div>
+
+            <div class="form-group ">
+
+                <input class="form-check-input" type="checkbox" id="defaultCheck1" (change)="onChecboxSelect($event)">
+                <span>Set Start and End Date</span>
+
+
+                <input type="text" id="startDate2" placeholder="DD/MM/YYYY" name="startDate2" [(ngModel)]="filteredData[index].startDate" disabled="{{disabled}}" />
+
+
+                <input type="text" id="endDate2" placeholder="DD/MM/YYYY" name="endDate2" [(ngModel)]="filteredData[index].endDate" disabled="{{disabled}}" />
+
+            </div>
+
+            <div class="form-group  required">
+                <label for="priority2">Priority:</label>
+
+                <span>0 - </span>
+                <span>30</span>
+                <input type="range" (click)="onDragUpdate($event,index)" name="priority2" min="0" max="30" class="custom-range" [(ngModel)]="filteredData[index].priority" required>
+                <span>{{project.priority}}</span>
+                <div class="invalid-feedback">Priority is mandatory field</div>
+            </div>
+
+            <div class="form-group  required">
+
+                <label for="managerName">Manager:</label>
+
+                <input type="text" name="managerName2" class="form-control" id="managerName2" value="{{project.manager.firstName}} {{project.manager.lastName}}" readonly>
+
+                <button type="button" id="search2" class="btn btn-primary" (click)="openUserModal(template1,index)">Serach</button>
+
+            </div>
+
+            <div class="form-group ">
+
+                <button type="button" class="btn btn-primary" [disabled]="validateDate()" (click)="updateProject(index)">Update</button>
+                <button type="button" class="btn btn-primary" (click)="closeProjectModal()">Close</button>
+
+            </div>
+        </form>
+    </div>
+</ng-template>
