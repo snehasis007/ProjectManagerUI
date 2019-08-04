@@ -80,7 +80,7 @@ export class TaskSaveComponent implements OnInit {
 
   saveOrUpdateTask(): any { 
     if(this.isParentSelected){
-      this.task.pTask=null;
+      this.task.pTask.parentTaskName=this.task.task;
     }   
     this.taskService.saveTask(this.task).subscribe((response: any) => {
       this.reset();
