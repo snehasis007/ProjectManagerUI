@@ -40,25 +40,26 @@
         <hr style="border:1px solid" />
     </div>
 
-    <div class="row">
+    <div class="d-flex flex-row">
+        <div class="p-2">
+            <label for="Search">Search: </label>
+        </div>
+        <div class="p-2">
+            <input type="text" name="userSearchValue" class="form-control" id="userSearchValue" [(ngModel)]="userSearchValue">
+        </div>
+        <div class="p-2">
+            <label for="sort">Sort:</label>
+        </div>
+        <div class="p-2">
+            <button type="button" id="srchfirstName" class="btn btn-secondary" (click)="sortByFirstName()">First Name</button>
 
-        <label for="Search">Search</label>
-
-        <input type="text" name="userSearchValue" class="form-control" id="userSearchValue" [(ngModel)]="userSearchValue">
-
-        <label for="sort">Sort:</label>
-        <span>
-        <button type="button" id="srchfirstName" class="btn btn-secondary" 
-        (click)="sortByFirstName()">First Name</button>
-      </span>
-        <span>
-        <button type="button" id="srchlastName" class="btn btn-secondary " 
-        (click)="sortByLastName()">Last Name</button>
-      </span>
-        <span>
-        <button type="button" id="srchid" class="btn btn-secondary " 
-        (click)="sortById()">Id</button>
-      </span>
+        </div>
+        <div class="p-2">
+            <button type="button" id="srchlastName" class="btn btn-secondary " (click)="sortByLastName()">Last Name</button>
+        </div>
+        <div class="p-2">
+            <button type="button" id="srchid" class="btn btn-secondary " (click)="sortById()">Id</button>
+        </div>
 
 
     </div>
@@ -89,43 +90,45 @@
 
 
 
-    <ng-template #template>
-        <div class="modal-header">
-            <h4 class="modal-title pull-left">Update User</h4>
-            <button type="button" class="btn btn-secondary" aria-label="Close" (click)="closeUserModal()">
-        <span aria-hidden="true">&times;</span>
-      </button>
-        </div>
-        <div class="modal-body">
 
-            <div class="form-group ">
-
-                <label for="name">First Name:</label>
-
-                <input type="text" name="firstName2" class="form-control" id="firstName2" [(ngModel)]="filteredUsers[index].firstName" />
-
-            </div>
-            <div class="form-group">
-
-                <label for="name">Last Name:</label>
-
-                <input type="text" name="lastName2" class="form-control" id="lastName2" [(ngModel)]="filteredUsers[index].lastName" />
-
-            </div>
-            <div class="form-group">
-
-                <label for="empId">Emp ID:</label>
-
-                <input type="text" name="empId2" class="form-control" id="empId2" [(ngModel)]="filteredUsers[index].employeeID">
-
-            </div>
-
-            <div class="form-group ">
-
-                <button type="button" class="btn btn-secondary" [disabled]="!(filteredUsers[index].firstName && filteredUsers[index].lastName && filteredUsers[index].employeeID)" (click)="updateUser(index)">Update</button>
-                <button type="button" class="btn btn-secondary " (click)="closeUserModal()">Close</button>
-
-            </div>
-        </div>
-    </ng-template>
 </div>
+
+<ng-template #template>
+    <div class="modal-header">
+        <h4 class="modal-title pull-left">Update User</h4>
+        <button type="button" class="btn btn-secondary" aria-label="Close" (click)="closeUserModal()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+    </div>
+    <div class="modal-body">
+
+        <div class="form-group ">
+
+            <label for="name">First Name:</label>
+
+            <input type="text" name="firstName2" class="form-control" id="firstName2" [(ngModel)]="filteredUsers[index].firstName" />
+
+        </div>
+        <div class="form-group">
+
+            <label for="name">Last Name:</label>
+
+            <input type="text" name="lastName2" class="form-control" id="lastName2" [(ngModel)]="filteredUsers[index].lastName" />
+
+        </div>
+        <div class="form-group">
+
+            <label for="empId">Emp ID:</label>
+
+            <input type="text" name="empId2" class="form-control" id="empId2" [(ngModel)]="filteredUsers[index].employeeID">
+
+        </div>
+
+        <div class="form-group ">
+
+            <button type="button" class="btn btn-secondary" [disabled]="!(filteredUsers[index].firstName && filteredUsers[index].lastName && filteredUsers[index].employeeID)" (click)="updateUser(index)">Update</button>
+            <button type="button" class="btn btn-secondary " (click)="closeUserModal()">Close</button>
+
+        </div>
+    </div>
+</ng-template>

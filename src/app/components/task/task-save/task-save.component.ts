@@ -34,7 +34,7 @@ export class TaskSaveComponent implements OnInit {
   private _projectSearchValue: string = "";
   private _parentTaskSearchValue: string = "";
   private _userSearchValue: string = "";
-
+  private isParentSelected:boolean=true;
   index: number;
   errorMsg: String;
 
@@ -43,7 +43,7 @@ export class TaskSaveComponent implements OnInit {
 
   constructor(private modalService: BsModalService, private taskService: ProjectService) { 
     this.task = new Task();
-   
+    this.task.isParent = 'Y';
     this.task.priority = 0;
   //  this.task.pTask = new ParentTask();
    
@@ -78,7 +78,10 @@ export class TaskSaveComponent implements OnInit {
     return this._userSearchValue;
   }
 
-  saveOrUpdateTask(): any {    
+  saveOrUpdateTask(): any { 
+    if(this.isParentSelected){
+      this.task.pTask=null;
+    }   
     this.taskService.saveTask(this.task).subscribe((response: any) => {
       this.reset();
     },
@@ -164,9 +167,11 @@ export class TaskSaveComponent implements OnInit {
   }
   onChecboxSelect(event: any): void {
     this.task.isParent = 'N';
-    if (!event.target.checked) {
+    this.isParentSelected=false;
+    if (event.target.checked) {
       this.task.isParent = 'Y';
-      this.task.pTask.parentTaskName = "";
+      this.task.pTask.parentTaskName = null;
+      this.isParentSelected=true;
     }
   }
 
@@ -186,12 +191,7 @@ export class TaskSaveComponent implements OnInit {
 
   reset(): void {
     
-    this.task.task= "";
-    this.task.project.project = "";
-    this.task.userOwner.fullName = "";
-    this.task.startDate = "";
-    this.task.endDate = "";
-    this.task.pTask.parentTaskName = "";
+    this.task=new Task();
   }
 
   validateDate(): boolean {

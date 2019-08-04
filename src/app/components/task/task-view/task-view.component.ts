@@ -270,7 +270,7 @@ export class TaskViewComponent implements OnInit {
     });
   }
   reset():void{
-    this.projectId="";
+    this.projectId=null;
     this.filteredTasks = this.taskList;    
   }
 

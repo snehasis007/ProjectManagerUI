@@ -1,10 +1,12 @@
 import { Component, OnInit, TemplateRef } from '@angular/core';
-import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal/public_api';
+
 import { Project } from 'src/app/models/project';
 import { User } from 'src/app/models/user';
-import { Task } from 'src/app/models/task';
+
 import { ProjectService } from 'src/app/services/project.service';
 import { formatDate } from '@angular/common';
+import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
+import { BsModalService } from 'ngx-bootstrap/modal';
 @Component({
   selector: 'app-project-save',
   templateUrl: './project-save.component.html',
@@ -53,7 +55,9 @@ export class ProjectSaveComponent implements OnInit {
 
   constructor(private modalService: BsModalService, private projectService: ProjectService) {
     this.project = new Project();
-    this.project.noOfTask = 1;
+    this.project.priority='0';
+    this.getProjects();
+   // this.project.noOfTask = 1;
     
          
   }
@@ -124,13 +128,13 @@ export class ProjectSaveComponent implements OnInit {
       this.currentDate = new Date();
       this.nextDate = new Date();
       this.nextDate.setDate(this.currentDate.getDate() + 1);
-      this.project.startDate = formatDate(this.currentDate, 'yyyy-MM-dd', 'en');
-      this.project.endDate = formatDate(this.nextDate, 'yyyy-MM-dd', 'en');
+      this.project.startDate = formatDate(this.currentDate, 'dd/MM/yyyy', 'en');
+      this.project.endDate = formatDate(this.nextDate, 'dd/MM/yyyy', 'en');
       this.disabled = false;
 
     } else if (!event.target.checked) {
-      this.project.startDate = "";
-      this.project.endDate = "";
+      this.project.startDate = null;
+      this.project.endDate = null;
       this.disabled = true;
     }
   }
@@ -181,16 +185,13 @@ export class ProjectSaveComponent implements OnInit {
     });
   }
 
-  openUserModal(template: TemplateRef<any>, i: number) {
+  openUserModal(template: TemplateRef<any>) {
     this.getUsers();
-    if (this.filteredData[i]) {
-      this.project = this.filteredData[i];
-    }
-    
+          
     this.userModalRef = this.modalService.show(template);
   }
 
-  openProjectModal(template: TemplateRef<any>, i) {
+  openProjectModal(template: TemplateRef<any>, i:number) {
     this.index = i;
     this.project=this.filteredData[i];    
     this.projectModalRef = this.modalService.show(template);
@@ -214,12 +215,7 @@ export class ProjectSaveComponent implements OnInit {
   }
 
   reset(): void {   
-    this.project.endDate = '';
-    this.project.id = '';
-    this.project.startDate = '';
-    this.project.priority = "0";
-    this.project.project = '';
-    this.project.manager = new User();
+    this.project=new Project();
     this.getProjects();
   }
 

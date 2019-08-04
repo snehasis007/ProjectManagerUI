@@ -1,6 +1,7 @@
 import { Component, OnInit, TemplateRef } from '@angular/core';
 import { User } from 'src/app/models/user';
-import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal/public_api';
+import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
+import { BsModalService } from 'ngx-bootstrap/modal';
 import { ProjectService } from 'src/app/services/project.service';
 
 @Component({
@@ -125,10 +126,8 @@ export class UserSaveComponent implements OnInit {
   }
 
   reset(): void {
-    this.user.firstName = "";
-    this.user.id = "";
-    this.user.lastName = "";
-    this.user.employeeID = "";
+    this.user=new User();
+    this.getUsers();
   }
 
 }

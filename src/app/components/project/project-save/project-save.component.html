@@ -14,7 +14,8 @@
             <input class="form-check-input" type="checkbox" id="defaultCheck1" (change)="onChecboxSelect($event)"> Set Start and End Date
 
             <input type="text" id="startDate" placeholder="DD/MM/YYYY" class="form-control" name="startDate" [(ngModel)]="project.startDate" disabled="{{disabled}}" />
-
+            <div><br></div>
+            <div><br></div>
             <input type="text" id="endDate" placeholder="DD/MM/YYYY" class="form-control" name="endDate" [(ngModel)]="project.endDate" disabled="{{disabled}}" />
 
         </div>
@@ -35,7 +36,7 @@
 
             <input type="text" name="managerName" class="form-control" id="managerName" value="{{project.manager.fullName}}" readonly>
 
-            <button type="button" id="search" class="button buttonSearch" (click)="openUserModal(template1)">Serach</button>
+            <button type="button" id="mnsearch" class="btn btn-outline-secondary" (click)="openUserModal(template1)">Search</button>
 
         </div>
 
@@ -47,65 +48,71 @@
 
         </div>
     </form>
+
+
+
+
+    <div class="d-flex flex-row">
+
+        <div class="p-2">
+            <label for="Search">Search: </label>
+        </div>
+        <div class="p-2">
+            <input type="text" name="searchValuech1" class="form-control" id="searchValue" [(ngModel)]="searchValue">
+        </div>
+
+
+
+
+        <div class="p-2">
+            <label for="sortBy">Sort By:</label>
+        </div>
+        <div class="p-2">
+            <button type="button" id="startDatesrt" class="btn btn-secondary" (click)="sortByStartDate()">Start Date</button>
+        </div>
+        <div class="p-2">
+            <button type="button" id="endDatesrt" class="btn btn-secondary " (click)="sortByEndDate()">End Date</button>
+        </div>
+        <div class="p-2">
+            <button type="button" id="prioritysrt" class="btn btn-secondary" (click)="sortByPriority()">Priority</button>
+        </div>
+        <div class="p-2">
+            <button type="button" id="completedsrt" class="btn btn-secondary " (click)="sortByCompletion()">Completed</button>
+        </div>
+    </div>
+
+    <table id="prview1" class="table table-striped">
+        <tr>
+            <th>Project</th>
+            <th>No Of Tasks </th>
+            <th>Completed </th>
+            <th>Start Date </th>
+            <th>End Date </th>
+            <th>Priority </th>
+            <th></th>
+        </tr>
+        <tr *ngFor="let project of filteredData;let i = index">
+            <td>{{project.project}}</td>
+            <td>{{project.noOfTask}}</td>
+            <td>{{project.noOfTaskCompleted}}</td>
+            <td>{{project.startDate}}</td>
+            <td>{{project.endDate}}</td>
+            <td>{{project.priority}}</td>
+            <td>
+
+                <button type="button" (click)="openProjectModal(template2,i)" class="btn btn-primary">Update</button>
+
+                <button type="button" (click)="suspend(i)" class="btn btn-warning">Suspend</button>
+
+
+            </td>
+
+        </tr>
+    </table>
 </div>
 
 
-<hr />
 
-
-<div class="row">
-
-
-    <label for="Search">Search</label>
-
-
-    <input type="text" name="searchValuech1" class="form-control" id="searchValue" [(ngModel)]="searchValue">
-
-
-</div>
-
-<div class="row">
-
-    <label for="sortBy">Sort By:</label>
-
-    <button type="button" id="startDatesrt" class="btn btn-secondary" (click)="sortByStartDate()">Start Date</button>
-
-    <button type="button" id="endDatesrt" class="btn btn-secondary " (click)="sortByEndDate()">End Date</button>
-
-    <button type="button" id="prioritysrt" class="btn btn-secondary" (click)="sortByPriority()">Priority</button>
-
-    <button type="button" id="completedsrt" class="btn btn-secondary " (click)="sortByCompletion()">Completed</button>
-
-</div>
-
-<table id="prview1" class="table table-striped">
-    <tr>
-        <th>Project</th>
-        <th>No Of Tasks </th>
-        <th>Completed </th>
-        <th>Start Date </th>
-        <th>End Date </th>
-        <th>Priority </th>
-        <th></th>
-    </tr>
-    <tr *ngFor="let project of filteredData;let i = index">
-        <td>{{project.project}}</td>
-        <td>{{project.noOfTask}}</td>
-        <td>{{project.noOfTaskCompleted}}</td>
-        <td>{{project.startDate}}</td>
-        <td>{{project.endDate}}</td>
-        <td>{{project.priority}}</td>
-        <td>
-
-            <button type="button" (click)="openProjectModal(template2,i)" class="btn btn-primary">Update</button>
-
-            <button type="button" (click)="suspend(i)" class="btn btn-warning">Suspend</button>
-
-
-        </td>
-
-    </tr>
-</table>
 
 
 
@@ -120,14 +127,14 @@
     <div class="modal-body">
         <div class="form-group ">
 
-            <label for="Search">Search</label>
+            <label for="Search">Search:</label>
 
             <input type="text" name="userSearchValue" class="form-control" [(ngModel)]="userSearchValue">
 
         </div>
         <div class="form-group">
 
-            <label for="name">NAME</label>
+            <label for="name">NAME </label>
 
             <label for="empId">EMP ID</label>
 
