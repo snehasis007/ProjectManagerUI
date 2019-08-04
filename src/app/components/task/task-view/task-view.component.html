@@ -141,10 +141,10 @@
         </div>
         <div *ngFor="let parentTask of filteredParentTasks;let i = index" class="d-flex flex-row">
             <div class="p-2">
-                <input type="text" name="parentTaskName" class="form-control" id="mdparentTaskName1" disabled=true value="{{parentTask.parentTaskName}}">
+                <input type="text" name="parentTaskName" class="form-control" id="mdparentTaskName1" disabled="true" value="{{parentTask.parentTaskName}}">
             </div>
             <div class="p-2">
-                <input type="text" name="parentId" class="form-control" id="mdparentId1" disabled=true value="{{parentTask.parentTaskId}}">
+                <input type="text" name="parentId" class="form-control" id="mdparentId1" disabled="true" value="{{parentTask.id}}">
             </div>
             <div class="p-2">
                 <button type="button" id="mdselect1" class="btn btn-secondary" (click)="selectParentTask(i)">Select</button>
@@ -186,7 +186,7 @@
 
         <div class="d-flex flex-row" *ngFor="let project of filteredProjects;let i = index">
             <div class="p-2">
-                <input type="text" name="projectName" class="form-control" id="projectName" readonly value="{{project.projectName}}">
+                <input type="text" name="projectName" class="form-control" id="projectName" readonly value="{{project.project}}">
             </div>
             <div class="p-2">
                 <input type="text" name="startDate" class="form-control" id="startDate" readonly value="{{project.startDate}}">

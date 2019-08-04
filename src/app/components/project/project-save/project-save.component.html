@@ -13,9 +13,9 @@
 
             <input class="form-check-input" type="checkbox" id="defaultCheck1" (change)="onChecboxSelect($event)"> Set Start and End Date
 
-            <input type="text" id="startDate" placeholder="DD/MM/YYYY" class="form-control" name="startDate" [(ngModel)]="project.startDate" disabled={{disabled}} />
+            <input type="text" id="startDate" placeholder="DD/MM/YYYY" class="form-control" name="startDate" [(ngModel)]="project.startDate" disabled="{{disabled}}" />
 
-            <input type="text" id="endDate" placeholder="DD/MM/YYYY" class="form-control" name="endDate" [(ngModel)]="project.endDate" disabled={{disabled}} />
+            <input type="text" id="endDate" placeholder="DD/MM/YYYY" class="form-control" name="endDate" [(ngModel)]="project.endDate" disabled="{{disabled}}" />
 
         </div>
 
@@ -141,7 +141,7 @@
                 <input type="text" name="firstName" class="form-control" id="firstName" readonly value="{{user.firstName}} {{user.lastName}}" />
 
 
-                <input type="text" name="empId" class="form-control" id="empId" disabled value={{user.empId}} />
+                <input type="text" name="empId" class="form-control" id="empId" disabled value={{user.employeeID}} />
 
 
                 <button type="button" id="select" class="btn btn-secondary" (click)="selectUser(i)">Select</button>
