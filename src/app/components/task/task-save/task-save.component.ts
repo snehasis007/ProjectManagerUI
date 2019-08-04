@@ -34,12 +34,17 @@ export class TaskSaveComponent implements OnInit {
   private _projectSearchValue: string = "";
   private _parentTaskSearchValue: string = "";
   private _userSearchValue: string = "";
-  private isParentSelected:boolean=true;
+  private _isParentSelected:boolean=true;
   index: number;
   errorMsg: String;
 
-  
+  get isParentSelected(): boolean {
+    return this._isParentSelected;
+  }
     
+  set isParentSelected(val:boolean){
+    this._isParentSelected=val;
+  }
 
   constructor(private modalService: BsModalService, private taskService: ProjectService) { 
     this.task = new Task();
@@ -80,7 +85,7 @@ export class TaskSaveComponent implements OnInit {
 
   saveOrUpdateTask(): any { 
     if(this.isParentSelected){
-      this.task.pTask.parentTaskName=this.task.task;
+      this.task.pTask.parentTaskName=this.task.task; 
     }   
     this.taskService.saveTask(this.task).subscribe((response: any) => {
       this.reset();

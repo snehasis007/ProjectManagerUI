@@ -219,7 +219,7 @@ export class ProjectSaveComponent implements OnInit {
     this.getProjects();
   }
 
-  validateDate(project: Project): boolean {
+  validateDate(): boolean {
     let startDateStr = this.project.startDate;
     let endDateStr = this.project.endDate;
     let startDate: Date = new Date(startDateStr);

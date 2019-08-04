@@ -180,6 +180,14 @@ export class TaskViewComponent implements OnInit {
   get projectSearchValue(): string {
     return this._projectSearchValue;
   }
+  get parentTaskSearchValue(): string{
+    return this._parentTaskSearchValue;
+   
+  }
+
+  set parentTaskSearchValue(value: string){
+    this._parentTaskSearchValue = value;
+  }
   openProjectModal(template: TemplateRef<any>): void {
     this.getProjects();
     this.projectModalRef = this.modalService.show(template);
